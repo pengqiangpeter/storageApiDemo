@@ -9,15 +9,15 @@ import com.alibaba.fastjson.JSONObject;
 import java.text.SimpleDateFormat;
 
 public class App {
-	public static String storageId = "1";
-	public static String access_token = "8SijhdNduIoulcNfSwAnaEBfzuBZdYeaUoCoK9aDTmLdhK0NZWHTiro8JD8tTziu";
+	public static String storageId = "在这里填入您的storageId";
+	public static String access_token = "在这里填入您的access_token";
 	
 
 	public static void main(String[] args) {
 //		若进销存软件管理的是连锁店，使用以下代码
-		syncChainData();
+//		syncChainData();
 //		若进销存软件管理的是单个店铺，使用以下代码
-		syncSingleShopData();
+//		syncSingleShopData();
 //		删除进销存软件商名下的所有连锁商、店铺、商品，慎用。
 //		deleteAllData();
 	}
@@ -153,7 +153,6 @@ public class App {
             try {
 				Utils.deleteCommodities("1-swsn1-exampleShop2Id", commodities);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
           }
@@ -262,7 +261,6 @@ public class App {
             try {
 				Utils.deleteCommodities("1-swsn2", commodities);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
           }
@@ -443,7 +441,6 @@ class UploadSingleShopThread {
 					}
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
