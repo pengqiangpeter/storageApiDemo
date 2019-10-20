@@ -11,7 +11,8 @@ public class Utils {
 	
 	public static JSONObject getChain(String chainId) {
 		System.out.println("--------从优衣地图读取id为"+chainId+"的连锁商--------");
-		String str = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/getChain?id="+App.chainData.getString("id")+"&access_token="+App.access_token);
+		String str = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/getChain?id="+App.chainData.getString("id")+"&access_token="+App.access_token);
+		System.out.println(str);
 		return JSONObject.parseObject(str);
 	}
 	
@@ -19,7 +20,7 @@ public class Utils {
 		System.out.println("--------指示优衣地图创建id为"+chain.getString("id")+"连锁商--------");
 		JSONObject newChain = (JSONObject)chain.clone();
 		newChain.remove("shops");
-		String rtn = MyHttpClient.postJson("http://api.yiyimap.com/api/storages/"+App.storageId+"/createChain?access_token="+App.access_token, newChain.toJSONString());
+		String rtn = MyHttpClient.postJson("http://api.youyimap.com/api/storages/"+App.storageId+"/createChain?access_token="+App.access_token, newChain.toJSONString());
 		if(rtn.indexOf("SUCCESS")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
@@ -37,7 +38,7 @@ public class Utils {
 			newShops.getJSONObject(i).remove("commodities");
 		}
 		jsonObj.put("shops", newShops);
-		String rtn = MyHttpClient.postJson("http://api.yiyimap.com/api/storages/"+App.storageId+"/createShops?access_token="+App.access_token, jsonObj.toString());
+		String rtn = MyHttpClient.postJson("http://api.youyimap.com/api/storages/"+App.storageId+"/createShops?access_token="+App.access_token, jsonObj.toString());
 //		System.out.println(rtn);
 		if(rtn.indexOf("SUCCESS")<0) {
 //			System.out.println(rtn);
@@ -51,25 +52,42 @@ public class Utils {
 		JSONObject param = new JSONObject();
 		param.put("shopId", shopId);
 		param.put("commodities", commodities);
-		String rtn = MyHttpClient.postJson("http://api.yiyimap.com/api/storages/"+App.storageId+"/createCommodities?access_token="+App.access_token, param.toJSONString());
+		String rtn = MyHttpClient.postJson("http://api.youyimap.com/api/storages/"+App.storageId+"/createCommodities?access_token="+App.access_token, param.toJSONString());
 		if(rtn.indexOf("SUCCESS")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
 		}
 	}
-	public static JSONArray getShopsOfChain(String chainId) throws Exception {
-		System.out.println("--------从优衣地图读取连锁商"+chainId+"下的所有店铺--------");
-		String str = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/getshops?chainId="+chainId+"&onlyId=true&access_token="+App.access_token);
+	public static JSONArray getShopIdsOfChain(String chainId) throws Exception {
+		System.out.println("--------从优衣地图读取连锁商"+chainId+"下的所有店铺的ID--------");
+		String str = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/getshops?chainId="+chainId+"&onlyId=true&access_token="+App.access_token);
 		if(str.indexOf("[")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
 		}
+		System.out.println(str);
+		
+		return JSONArray.parseArray(str);
+	}
+	
+
+	public static JSONArray getShopsOfChain(String chainId) throws Exception {
+		System.out.println("--------从优衣地图读取连锁商"+chainId+"下的所有店铺的ID--------");
+		String str = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/getshops?chainId="+chainId+"&access_token="+App.access_token);
+		if(str.indexOf("[")<0) {
+//			System.out.println(rtn);
+			throw new Exception();
+		}
+		System.out.println(str);
+		
 		return JSONArray.parseArray(str);
 	}
 
 	public static JSONObject getShop(String shopId) {
 		System.out.println("--------从优衣地图读取ID为："+shopId+"的店铺--------");
-		String str = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/getShop?shopId="+shopId+"&access_token="+App.access_token);
+		String str = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/getShop?shopId="+shopId+"&access_token="+App.access_token);
+		System.out.println(str);
+		
 		return JSONObject.parseObject(str);
 	}
 
@@ -115,7 +133,7 @@ public class Utils {
 
 	public static void deleteCommoditiesOfShop(String shopId) throws Exception {
 		System.out.println("--------指示优衣地图删除店铺"+shopId+"下的所有商品--------");
-		String rtn = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/deleteCommoditiesOfShop?shopId="+shopId+"&access_token="+App.access_token);
+		String rtn = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/deleteCommoditiesOfShop?shopId="+shopId+"&access_token="+App.access_token);
 		if(rtn.indexOf("SUCCESS")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
@@ -124,7 +142,7 @@ public class Utils {
 	
 	public static void deleteShop(String shopId) throws Exception {
 		System.out.println("--------指示优衣地图删除店铺"+shopId+"-------");
-		String rtn = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/deleteShop?shopId="+shopId+"&access_token="+App.access_token);
+		String rtn = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/deleteShop?shopId="+shopId+"&access_token="+App.access_token);
 		if(rtn.indexOf("SUCCESS")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
@@ -134,7 +152,7 @@ public class Utils {
 
 	public static JSONArray getCommoditiesOfShop(String shopId) throws Exception {
 		System.out.println("--------从优衣地图获取店铺"+shopId+"下的所有商品-------");
-		String str = MyHttpClient.get("http://api.yiyimap.com/api/storages/"+App.storageId+"/getCommodities?shopId="+shopId+"&access_token="+App.access_token);
+		String str = MyHttpClient.get("http://api.youyimap.com/api/storages/"+App.storageId+"/getCommodities?shopId="+shopId+"&access_token="+App.access_token);
 		if(str.indexOf("[")<0) {
 //			System.out.println(rtn);
 			throw new Exception();
@@ -198,7 +216,7 @@ public class Utils {
 			productCodes.add(commodities.getJSONObject(i).getString("productCode"));
 		}
 		param.put("productCodes", productCodes);
-		String rtn = MyHttpClient.postJson("http://api.yiyimap.com/api/storages/"+App.storageId+"/deleteCommodities?access_token="+App.access_token, param.toString());
+		String rtn = MyHttpClient.postJson("http://api.youyimap.com/api/storages/"+App.storageId+"/deleteCommodities?access_token="+App.access_token, param.toString());
 		if(rtn.indexOf("SUCCESS")<0) {
 			System.out.println(rtn);
 			throw new Exception();
@@ -209,7 +227,7 @@ public class Utils {
 		System.out.println("--------修改商品"+commodityToModify.getString("productCode")+"--------");
 		JSONObject newCommodity = (JSONObject)commodityToModify.clone();
 		newCommodity.put("shopId", shopId);
-		String rtn = MyHttpClient.postJson("http://api.yiyimap.com/api/storages/"+App.storageId+"/modifyCommodity?access_token="+App.access_token, newCommodity.toString());
+		String rtn = MyHttpClient.postJson("http://api.youyimap.com/api/storages/"+App.storageId+"/modifyCommodity?access_token="+App.access_token, newCommodity.toString());
 		if(rtn.indexOf("SUCCESS")<0) {
 			System.out.println(rtn);
 			throw new Exception();
